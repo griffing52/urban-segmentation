@@ -39,8 +39,10 @@ from transformers import Sam3Processor, Sam3Model
 # Configuration
 # ============================================================================
 
-# Thin classes we care about (Cityscapes trainIds)
-THIN_CLASS_PROMPTS = {
+# Prompt Strategy Levels - Different levels of specificity for SAM3 text prompts
+
+# Level 1: Baseline - Simple, generic terms
+PROMPTS_L1_BASELINE = {
     4: "fence",
     5: "pole",
     6: "traffic light",
@@ -51,6 +53,63 @@ THIN_CLASS_PROMPTS = {
     18: "bicycle",
 }
 
+# Level 2: Descriptive - More descriptive terms
+PROMPTS_L2_DESCRIPTIVE = {
+    4: "metal fence",
+    5: "street pole",
+    6: "traffic signal light",
+    7: "road traffic sign",
+    11: "pedestrian person",
+    12: "cyclist rider",
+    17: "motorcycle vehicle",
+    18: "bicycle bike",
+}
+
+# Level 3: Physical - Physical attributes emphasized
+PROMPTS_L3_PHYSICAL = {
+    4: "thin vertical metal fence barrier",
+    5: "tall narrow cylindrical pole post",
+    6: "small traffic light signal hanging",
+    7: "flat rectangular traffic sign board",
+    11: "standing upright human person",
+    12: "person riding bicycle or motorcycle",
+    17: "two-wheeled motorcycle with engine",
+    18: "two-wheeled pedal bicycle",
+}
+
+# Level 4: Specific - Context and location details
+PROMPTS_L4_SPECIFIC = {
+    4: "street fence barrier along road edge",
+    5: "utility pole or street lamp post",
+    6: "traffic light mounted on pole or wire",
+    7: "traffic sign mounted on pole showing information",
+    11: "person pedestrian walking on street or sidewalk",
+    12: "person riding on bicycle or motorcycle",
+    17: "motorized motorcycle on road",
+    18: "bicycle on road or bike lane",
+}
+
+# Map prompt strategy names to their dictionaries
+PROMPT_STRATEGIES = {
+    "L1_Baseline": PROMPTS_L1_BASELINE,
+    "L2_Descriptive": PROMPTS_L2_DESCRIPTIVE,
+    "L3_Physical": PROMPTS_L3_PHYSICAL,
+    "L4_Specific": PROMPTS_L4_SPECIFIC
+}
+
+# Default prompts (for backward compatibility)
+THIN_CLASS_PROMPTS = PROMPTS_L1_BASELINE
+
+REFINED_THIN_CLASS_PROMPTS = {
+    4: "vertical fence barrier",          # "fence" can sometimes be vague lines
+    5: "vertical street utility pole",    # "pole" is too generic (could be a stick)
+    6: "traffic light housing device",    # Focuses on the physical box, not just the light
+    7: "traffic sign on post",            # Helps separate sign from billboard ads
+    11: "pedestrian walking",             # "person" can match billboard photos
+    12: "person riding vehicle",          # "rider" is vague (horse? bike?)
+    17: "motorcycle vehicle",             # Adds "vehicle" to imply 3D object
+    18: "physical bicycle vehicle",       # Explicitly excludes 2D markings
+}
 
 # ============================================================================
 # SAM3 Model Loading
@@ -75,7 +134,8 @@ def generate_boundary_for_crop(
     image: Image.Image, 
     model: Sam3Model, 
     processor: Sam3Processor, 
-    device: str
+    device: str,
+    prompts: Dict[int, str] = None
 ) -> np.ndarray:
     """
     Generate boundary map for a single image/crop.
@@ -87,10 +147,14 @@ def generate_boundary_for_crop(
         model: SAM3 model
         processor: SAM3 processor
         device: Device to run on
+        prompts: Dictionary of {train_id: text_prompt}. If None, uses THIN_CLASS_PROMPTS
         
     Returns:
         Binary boundary map (H, W) as bool numpy array
     """
+    if prompts is None:
+        prompts = THIN_CLASS_PROMPTS
+    
     w, h = image.size
     combined_boundary = np.zeros((h, w), dtype=np.uint8)
     
@@ -99,7 +163,7 @@ def generate_boundary_for_crop(
     vision_embeds = model.get_vision_features(pixel_values=img_inputs.pixel_values)
     
     # Process each thin class
-    for train_id, text_prompt in THIN_CLASS_PROMPTS.items():
+    for train_id, text_prompt in prompts.items():
         # Prepare text inputs
         text_inputs = processor(text=text_prompt, return_tensors="pt").to(device)
         
@@ -463,6 +527,15 @@ def main():
         help="Overwrite existing boundary masks"
     )
     
+    # Prompt strategy selection
+    parser.add_argument(
+        "--prompt_level",
+        type=str,
+        default="L1_Baseline",
+        choices=["L1_Baseline", "L2_Descriptive", "L3_Physical", "L4_Specific"],
+        help="Prompt strategy level (default: L1_Baseline)"
+    )
+    
     # Multi-crop strategy arguments
     parser.add_argument(
         "--grid_size",
@@ -500,7 +573,11 @@ def main():
     
     # Set output directory name
     if args.output_dir is None:
-        args.output_dir = f"sam3_boundary_{args.strategy}"
+        args.output_dir = f"sam3_boundary_{args.strategy}_{args.prompt_level}"
+    
+    # Set global prompts based on selected level
+    global THIN_CLASS_PROMPTS
+    THIN_CLASS_PROMPTS = PROMPT_STRATEGIES[args.prompt_level]
     
     # Print configuration
     print("\n" + "="*60)
@@ -508,6 +585,7 @@ def main():
     print("="*60)
     print(f"Data root: {args.data_root}")
     print(f"Strategy: {args.strategy}")
+    print(f"Prompt level: {args.prompt_level}")
     print(f"Output directory: {args.output_dir}")
     print(f"Splits: {args.splits}")
     print(f"Device: {args.device}")
