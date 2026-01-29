@@ -55,8 +55,8 @@ PROMPTS_L1_BASELINE = {
 
 # Level 2: Descriptive - More descriptive terms
 PROMPTS_L2_DESCRIPTIVE = {
-    4: "metal fence",
-    5: "street pole",
+    4: "fence barrier",
+    5: "vertical pole",
     6: "traffic signal light",
     7: "road traffic sign",
     11: "pedestrian person",
@@ -67,9 +67,9 @@ PROMPTS_L2_DESCRIPTIVE = {
 
 # Level 3: Physical - Physical attributes emphasized
 PROMPTS_L3_PHYSICAL = {
-    4: "thin vertical metal fence barrier",
+    4: "thin fence barrier structure",
     5: "tall narrow cylindrical pole post",
-    6: "small traffic light signal hanging",
+    6: "traffic light signal hanging",
     7: "flat rectangular traffic sign board",
     11: "standing upright human person",
     12: "person riding bicycle or motorcycle",
