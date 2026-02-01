@@ -1,0 +1,33 @@
+# SAM3 Mask Generation Configuration
+
+# Data paths
+data:
+  root: "../data/cityscapes"
+  train_split: "train"
+  val_split: "val"
+  output_dir: "../outputs/generated_masks"
+
+# Generation strategies
+generation:
+  strategy: "baseline"  # baseline, multi_crop, tiled
+  
+  # Multi-crop settings
+  multi_crop:
+    grid_size: [2, 2]
+    
+  # Tiled settings
+  tiled:
+    window_size: 1024
+    stride: 512
+
+# SAM3 model settings
+model:
+  checkpoint: "facebook/sam-vit-large"
+  device: "cuda"
+  batch_size: 1
+
+# Processing
+processing:
+  target_classes: [4, 5, 6, 7, 11, 12, 17, 18]  # Thin object classes
+  num_workers: 4
+  verbose: true

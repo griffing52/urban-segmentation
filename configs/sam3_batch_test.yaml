@@ -1,0 +1,36 @@
+# SAM3 Batch Generation TEST Configuration
+# Quick test with fewer combinations to verify pipeline
+
+# Data paths
+data:
+  root: "../data/cityscapes"
+  splits: ["val"]
+  output_dir: "../outputs/test_batch_masks"
+  max_images: 5  # Only 5 images for quick test
+
+# Test with 2 methods
+methods:
+  - baseline
+  - multi_crop
+
+# Test with 2 prompt levels
+prompts:
+  - L1_Baseline
+  - L2_Descriptive
+
+# Single multi-crop configuration
+multi_crop:
+  grid_sizes:
+    - [2, 2]
+
+# Single tiled configuration (if enabled)
+tiled:
+  window_size: 1024
+  strides:
+    - 512
+
+# Processing settings
+processing:
+  num_workers: 2
+  verbose: true
+  device: "cuda"

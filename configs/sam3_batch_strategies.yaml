@@ -1,0 +1,46 @@
+# SAM3 Batch Generation Configuration
+# Generate masks for multiple strategies and prompt levels in one run
+
+# Data paths
+data:
+  root: "../data/cityscapes"
+  splits: ["val"]  # or ["train", "val"] for full generation
+  output_dir: "../generated_masks"
+  max_images: null  # Set to a number (e.g., 50) for testing, null for all images
+
+# Methods to generate (can specify multiple)
+methods:
+  - baseline
+  - multi_crop
+  - tiled
+
+# Prompt levels to test (can specify multiple)
+prompts:
+  - L1_Baseline
+  - L2_Descriptive
+  - L3_Physical
+  - L4_Specific
+
+# Multi-crop grid configurations
+# Each grid will create a separate run for each prompt level
+multi_crop:
+  grid_sizes:
+    - [2, 2]  # Standard 2x2 grid
+    - [1, 2]  # Horizontal split
+    # - [3, 3]  # Finer grid (slower but better coverage)
+
+# Tiled window configurations  
+# Each stride will create a separate run for each prompt level
+tiled:
+  window_size: 1024  # Fixed window size
+  strides:
+    - 256   # High overlap (slower, best quality)
+    - 512   # Medium overlap (balanced)
+    # - 768   # Low overlap
+    # - 1024  # No overlap (fastest)
+
+# Processing settings
+processing:
+  num_workers: 4
+  verbose: true
+  device: "cuda"

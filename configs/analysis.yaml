@@ -1,0 +1,26 @@
+# Grid Search Analysis Configuration
+
+# Data paths
+data:
+  root: "../data/cityscapes"
+  generated_masks_dir: "../outputs/generated_masks"
+  analysis_output_dir: "../outputs/analysis"
+
+# Evaluation metrics
+metrics:
+  compute: ["iou", "dice", "f1", "precision", "recall"]
+  boundaries:
+    thin_classes: [4, 5, 6, 7, 11, 12, 17, 18]
+
+# Visualization settings
+visualization:
+  save_plots: true
+  plot_format: "png"
+  dpi: 100
+  figsize: [12, 8]
+
+# Analysis options
+analysis:
+  compare_by: ["method", "prompt", "config"]
+  generate_heatmaps: true
+  generate_rankings: true

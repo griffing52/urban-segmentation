@@ -1,0 +1,35 @@
+# SAM3 Mask Generation TEST Configuration
+# This is a minimal test config to verify the pipeline works before full runs
+
+# Data paths
+data:
+  root: "../data/cityscapes"
+  train_split: "train"
+  val_split: "val"
+  output_dir: "../outputs/test_masks"  # Separate test directory
+  max_images: 5  # Only process 5 images for quick testing
+
+# Generation strategies
+generation:
+  strategy: "baseline"  # Start with baseline for simplest test
+  
+  # Multi-crop settings (for when testing multi_crop strategy)
+  multi_crop:
+    grid_size: [2, 2]
+    
+  # Tiled settings (for when testing tiled strategy)
+  tiled:
+    window_size: 1024
+    stride: 512
+
+# SAM3 model settings
+model:
+  checkpoint: "facebook/sam-vit-large"
+  device: "cuda"
+  batch_size: 1
+
+# Processing
+processing:
+  target_classes: [4, 5]  # Just test with 2 classes: person, rider
+  num_workers: 2  # Reduced workers for testing
+  verbose: true

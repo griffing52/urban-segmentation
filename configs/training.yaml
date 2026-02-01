@@ -1,0 +1,40 @@
+# SegFormer Training Configuration
+
+# Data paths
+data:
+  root: "../data/cityscapes"
+  masks_dir: "../outputs/generated_masks"
+  output_dir: "../outputs/experiments"
+
+# Training hyperparameters
+training:
+  epochs: 50
+  batch_size: 8
+  learning_rate: 1.0e-4
+  weight_decay: 0.0
+  warmup_steps: 1000
+  num_workers: 4
+  device: "cuda"
+
+# Model configuration
+model:
+  name: "segformer-b0-cityscapes"
+  pretrained: true
+  num_classes: 19
+
+# Auxiliary loss (boundary)
+boundary_loss:
+  enabled: true
+  weight: 0.3
+  loss_type: "dice"  # dice, bce, focal
+
+# Checkpointing and logging
+checkpoint:
+  save_interval: 5  # Save every N epochs
+  keep_best: true
+  output_dir: "../outputs/experiments/checkpoints"
+
+logging:
+  interval: 50  # Log every N batches
+  output_dir: "../outputs/experiments/logs"
+  log_metrics: ["loss", "miou", "accuracy", "boundary_iou"]

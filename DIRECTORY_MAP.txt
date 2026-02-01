@@ -1,0 +1,153 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                   URBAN SEGMENTATION REPOSITORY MAP                          ║
+║                     (Professional Organization)                              ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+📦 urban-segmentation/
+│
+├── 📋 Documentation Files (Root)
+│   ├── README.md                              Main project documentation
+│   ├── LICENSE                                License information
+│   ├── QUICKSTART.md                          ⭐ START HERE - Quick guide
+│   ├── REPOSITORY_STRUCTURE.md                Detailed structure guide
+│   ├── REORGANIZATION_SUMMARY.md              What changed and why
+│   └── REORGANIZATION_COMPLETE.md             Before/after summary
+│
+├── 🔧 scripts/                                Executable Python scripts
+│   ├── generate_sam3_masks.py                 SAM3 mask generation
+│   ├── generate_sam3_masks_from_configs.py    Batch generation
+│   ├── train_segformer_boundary.py            Model training
+│   └── visualize_training.py                  Training visualization
+│
+├── ⚙️ configs/                                Configuration files (YAML)
+│   ├── sam3_generation.yaml                   SAM3 settings
+│   ├── training.yaml                          Training parameters
+│   └── analysis.yaml                          Analysis settings
+│
+├── 📚 docs/                                   All documentation
+│   ├── GETTING_STARTED.md
+│   ├── SAM3_GENERATION_README.md
+│   ├── TRAINING_README.md
+│   ├── PROMPT_STRATEGIES_README.md
+│   ├── ANALYSIS_NOTEBOOK_QUICKSTART.md
+│   ├── VISUAL_GUIDE.md
+│   ├── IMPLEMENTATION_SUMMARY.md
+│   ├── IMPLEMENTATION_COMPLETE.md
+│   └── NOTEBOOK_REBUILD_SUMMARY.md
+│
+├── 🧮 src/                                    Reusable Python modules
+│   ├── __init__.py
+│   ├── analysis_utils.py                      Analysis utilities
+│   ├── dataset_utils.py                       Dataset utilities
+│   ├── model_utils.py                         Model utilities
+│   └── QUICK_REFERENCE.md                     API documentation
+│
+├── 📓 notebooks/                              Jupyter notebooks
+│   ├── SAM3_Grid_Search_Comparison.ipynb      ⭐ Main analysis
+│   ├── SAM3_SegFormer_Combined.ipynb
+│   ├── Cross_Model_Analysis.ipynb
+│   ├── Advanced_Diagnostic_Analysis.ipynb
+│   └── ... (additional analysis notebooks)
+│
+├── 📂 data/                                   Input datasets (read-only)
+│   └── cityscapes/
+│       ├── leftImg8bit_trainvaltest/
+│       ├── gtFine_trainvaltest/
+│       ├── sam3_boundary/
+│       └── benchmark_results/
+│
+├── 📤 outputs/                                Generated outputs (git-ignored)
+│   ├── generated_masks/                       SAM3-generated masks
+│   │   ├── sam3_baseline_L1_Baseline/
+│   │   ├── sam3_baseline_L2_Descriptive/
+│   │   ├── sam3_multi_crop_*/
+│   │   ├── sam3_tiled_*/
+│   │   └── generation_metadata.json
+│   ├── experiments/                           Training experiments
+│   │   ├── checkpoints/                       Model checkpoints
+│   │   ├── logs/                              Training logs
+│   │   └── my_first_run/
+│   ├── analysis/                              Analysis results
+│   │   ├── configuration_summary.csv
+│   │   ├── detailed_results.csv
+│   │   ├── RECOMMENDATIONS.txt
+│   │   ├── method_performance.png
+│   │   └── method_prompt_heatmap.png
+│   └── grid_search_results/                   Grid search outputs
+│       ├── analysis/
+│       └── masks/
+│
+├── 📝 logs/                                   Runtime logs
+│
+├── 🧪 experiments/                            Legacy experiments
+│   └── my_first_run/
+│
+└── .git/                                      Git repository
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                            WORKFLOW QUICK LINKS                             ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+📖 DOCUMENTATION
+  └─ Start: QUICKSTART.md
+     ├─ Learn: docs/GETTING_STARTED.md
+     ├─ Map: REPOSITORY_STRUCTURE.md
+     └─ Details: docs/*README.md
+
+🚀 RUNNING TASKS
+  ├─ Generate: python scripts/generate_sam3_masks.py
+  ├─ Train: python scripts/train_segformer_boundary.py
+  ├─ Analyze: jupyter notebook notebooks/SAM3_Grid_Search_Comparison.ipynb
+  └─ Visualize: python scripts/visualize_training.py
+
+⚙️ CONFIGURATION
+  ├─ SAM3: configs/sam3_generation.yaml
+  ├─ Training: configs/training.yaml
+  └─ Analysis: configs/analysis.yaml
+
+📊 OUTPUTS
+  ├─ Masks: outputs/generated_masks/
+  ├─ Models: outputs/experiments/checkpoints/
+  ├─ Logs: outputs/experiments/logs/
+  └─ Results: outputs/analysis/
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                         KEY DIRECTORIES AT A GLANCE                         ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+WHERE TO PUT...                    DIRECTORY
+───────────────────────────────────────────────────────────────────────────────
+New Python scripts                 scripts/
+New notebooks                      notebooks/
+Configuration changes              configs/
+Project documentation              docs/ (add file here)
+Utility functions                  src/
+Output data/results                outputs/
+Runtime logs                       logs/
+Input data (don't modify)          data/
+
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                              QUICK COMMANDS                                 ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+# View this map
+cat DIRECTORY_MAP.txt
+
+# View structure with details
+cat REPOSITORY_STRUCTURE.md
+
+# Quick start
+cat QUICKSTART.md
+
+# List all scripts
+ls scripts/
+
+# List all configs
+ls configs/
+
+# List all docs
+ls docs/
+
+# See outputs
+ls outputs/
+
