@@ -83,8 +83,8 @@ PROMPTS_L4_SPECIFIC = {
     5: "utility pole or street lamp post",
     6: "traffic light mounted on pole or wire",
     7: "traffic sign mounted on pole showing information",
-    11: "person pedestrian walking on street or sidewalk",
-    12: "person riding on bicycle or motorcycle",
+    11: "person pedestrian walking on street or sidewalk no reflection",
+    12: "person riding on bicycle or motorcycle no reflection",
     17: "motorized motorcycle on road",
     18: "bicycle on road or bike lane",
 }

@@ -6,7 +6,7 @@ set -e  # Exit on error
 
 DATA_ROOT="../data/cityscapes"
 OUTPUT_DIR="../generated_masks"
-MAX_IMAGES=""  # Set to "--max_images 50" for testing
+MAX_IMAGES="--max_images 100"  # Set to "--max_images 50" for testing
 
 # Color output
 GREEN='\033[0;32m'

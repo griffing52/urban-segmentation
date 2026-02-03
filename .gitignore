@@ -9,6 +9,7 @@ __pycache__/
 data/
 experiments/
 outputs/
+generated_masks/
 
 # Distribution / packaging
 .Python
